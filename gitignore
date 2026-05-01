@@ -1,0 +1,36 @@
+# ================================
+# SECURITY: Credentials & Secrets
+# ================================
+.Renviron
+config.R
+*.env
+.env
+secrets.R
+api_keys.R
+
+# ================================
+# R Artifacts
+# ================================
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# ================================
+# Data Files (often too large or sensitive)
+# ================================
+data/raw/*.xlsx
+data/raw/*.csv
+data/final/*.csv
+data/final/*.xlsx
+
+# Keep folder structure
+!data/raw/.gitkeep
+!data/final/.gitkeep
+
+# ================================
+# OS & Editor Files
+# ================================
+.DS_Store
+Thumbs.db
+*.swp
