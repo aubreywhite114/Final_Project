@@ -25,7 +25,8 @@ print(sheet_names)
 # Adjust sheet name/number if different in your actual file
 mmg_county_raw <- readxl::read_excel(
   path      = mmg_path,
-  sheet     = 1,           # Usually "County" or first sheet — update if needed
+  sheet     = "County",
+  skip      = 1,        # ← skip the title row, row 2 becomes the header
   col_names = TRUE,
   na        = c("", "NA", "N/A", "n/a", "#N/A")
 )
@@ -65,3 +66,4 @@ if (!is.null(mmg_state_raw)) {
 }
 
 message("\n✓ 01a complete: MMG raw data saved to data/raw/")
+
