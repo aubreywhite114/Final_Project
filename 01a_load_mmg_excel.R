@@ -10,14 +10,14 @@ library(here)
 
 # ── File path ────────────────────────────────────────────────────────────────
 # Place the Excel file in data/raw/ before running
-mmg_path <- here("data", "raw", "MMG2025_2019-2023_Data_To_Share.xlsx")
+mmg_path <- "M:\\ISA401\\data\\MMG2025_2019-2023_Data_To_Share.xlsx"
 
 if (!file.exists(mmg_path)) {
   stop("MMG Excel file not found. Please place it at: ", mmg_path)
 }
 
 # ── Inspect sheet names ───────────────────────────────────────────────────────
-sheet_names <- readxl::excel_sheets(mmg_path)
+sheet_names <- readxl::excel_sheets("M:\\ISA401\\data\\MMG2025_2019-2023_Data_To_Share.xlsx")
 message("Sheets found in MMG file:")
 print(sheet_names)
 
@@ -54,6 +54,9 @@ print(names(mmg_county_raw))
 
 message("\n--- First 5 rows ---")
 print(head(mmg_county_raw, 5))
+
+# ── Ensure output directory exists ───────────────────────────────────────────
+dir.create(here("data", "raw"), recursive = TRUE, showWarnings = FALSE)
 
 # ── Save raw objects for downstream scripts ───────────────────────────────────
 saveRDS(mmg_county_raw, here("data", "raw", "mmg_county_raw.rds"))
