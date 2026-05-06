@@ -97,8 +97,8 @@ message("\nStep 3: Adding Ohio comparison flag...")
 final_merged <- final_merged |>
   dplyr::mutate(
     is_ohio = dplyr::case_when(
-      stringr::str_detect(toupper(state_name), "OHIO") ~ TRUE,
-      TRUE                                              ~ FALSE
+      state_name == "OH" ~ TRUE,
+      TRUE               ~ FALSE
     )
   )
 

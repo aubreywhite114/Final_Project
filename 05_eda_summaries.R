@@ -298,3 +298,4 @@ write.csv(trend_compare,    here("data", "final", "eda_trend_2019_2023.csv"),
 message("\n✓ 05 complete: EDA summaries and plots saved.")
 message("  Plots in:  data/final/plots/")
 message("  Tables in: data/final/")
+
