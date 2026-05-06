@@ -95,8 +95,11 @@ message("\nFRAC summary records: ", nrow(frac_summary))
 
 # ── Step 6: Parse national food insecurity rate from text ────────────────────
 # FRAC typically states the national rate in a visible paragraph
+# FIX: Decoupled the two conditions so the percentage can appear before OR
+# after the food insecurity keyword (e.g. "13.5% of Americans are food insecure")
 national_fi_text <- all_text[
-  stringr::str_detect(all_text, "(?i)(food insecure|food insecurity).{0,60}[0-9]+\\.?[0-9]*\\s*%")
+  stringr::str_detect(all_text, "(?i)(food insecure|food insecurity)") &
+    stringr::str_detect(all_text, "[0-9]+\\.?[0-9]*\\s*(%|percent)")
 ][1]
 
 national_fi_rate <- stringr::str_extract(
@@ -104,7 +107,14 @@ national_fi_rate <- stringr::str_extract(
   "[0-9]+\\.?[0-9]*(?=\\s*%|\\s*percent)"
 ) |> as.numeric()
 
+message("National FI text found: ", national_fi_text)
 message("Extracted national food insecurity rate: ", national_fi_rate, "%")
+
+# Diagnostic: if still NA, print all percentage-containing lines for inspection
+if (is.na(national_fi_rate)) {
+  message("\nWARNING: Could not parse national FI rate. Printing pct lines for inspection:")
+  print(all_text[stringr::str_detect(all_text, "[0-9]+\\.?[0-9]*\\s*%")] |> head(20))
+}
 
 # ── Step 7: Build tidy state-range row (for merging) ─────────────────────────
 # FRAC text example: "ranging from 9 percent in North Dakota to 19.4 percent in Arkansas"
@@ -119,7 +129,7 @@ if (!is.na(range_sentence)) {
     range_sentence,
     "[0-9]+\\.?[0-9]*(?=\\s*(percent|%))"
   )[[1]] |> as.numeric()
-
+  
   frac_state_range <- data.frame(
     metric          = "state_fi_rate_range",
     min_rate_pct    = min(rates_in_sentence, na.rm = TRUE),
@@ -130,7 +140,7 @@ if (!is.na(range_sentence)) {
     scraped_date    = Sys.Date(),
     stringsAsFactors = FALSE
   )
-
+  
   message("State FI range: ", frac_state_range$min_rate_pct,
           "% – ", frac_state_range$max_rate_pct, "%")
 } else {

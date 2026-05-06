@@ -101,3 +101,4 @@ saveRDS(census_county_clean, here("data", "raw", "census_county_clean.rds"))
 saveRDS(census_state_clean,  here("data", "raw", "census_state_clean.rds"))
 
 message("\n✓ 02c complete: Census data cleaned and saved.")
+

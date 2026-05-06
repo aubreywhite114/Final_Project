@@ -60,7 +60,8 @@ message(sprintf("  Matched: %d | Unmatched (no Census data): %d",
 
 # Flag rows where Census join failed
 mmg_census_county <- mmg_census_county |>
-  dplyr::mutate(census_join_flag = is.na(poverty_rate))
+  dplyr::mutate(census_join_flag = is.na(poverty_rate)) |>
+  dplyr::rename(state_name = state)
 
 # ── Step 2: Attach FRAC national context as state-level columns ───────────────
 # FRAC provides national range stats — broadcast to every row as reference cols
@@ -106,7 +107,7 @@ message("  Non-Ohio rows: ", sum(!final_merged$is_ohio))
 
 # ── Step 4: Final tidy column selection and ordering ──────────────────────────
 final_tidy <- final_merged |>
-
+  
   dplyr::select(
     # ── Identifiers ──────────────────────────────────────────────────────────
     fips,
@@ -114,26 +115,26 @@ final_tidy <- final_merged |>
     state_name,
     year,
     is_ohio,
-
+    
     # ── MMG food insecurity variables (primary) ───────────────────────────────
     fi_rate,
     fi_count,
     child_fi_rate,
     meal_cost,
-
+    
     # ── Census socioeconomic variables ────────────────────────────────────────
     poverty_rate,
     unemployment_rate,
     median_income,
     total_population,
-
+    
     # ── FRAC national context (from scrape) ──────────────────────────────────
     frac_national_fi_pct,
     frac_state_fi_min_pct,
     frac_state_fi_max_pct,
     frac_source_url,
     frac_scraped_date,
-
+    
     # ── Data quality flags ────────────────────────────────────────────────────
     missing_fi_rate,
     missing_fi_count,
@@ -143,7 +144,7 @@ final_tidy <- final_merged |>
     poverty_rate_invalid,
     unemployment_rate_invalid
   ) |>
-
+  
   dplyr::arrange(state_name, county_name, year)
 
 message("\nFinal merged dataset: ", nrow(final_tidy), " rows x ",
