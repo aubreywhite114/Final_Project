@@ -19,6 +19,7 @@ library(dplyr)
 library(stringr)
 library(here)
 library(writexl)
+library(readr)
 
 # ── Load all cleaned datasets ─────────────────────────────────────────────────
 mmg_county    <- readRDS(here("data", "raw", "mmg_county_clean.rds"))
@@ -174,3 +175,5 @@ message("\n✓ 03 complete: Final merged dataset saved to data/final/")
 message("  CSV:   food_insecurity_final.csv")
 message("  Excel: food_insecurity_final.xlsx")
 message("  RDS:   food_insecurity_final.rds")
+
+write_csv(census_county_clean, here("data", "final", "FinalProject.csv"))
