@@ -78,3 +78,4 @@ saveRDS(census_county_raw, here("data", "raw", "census_county_raw.rds"))
 saveRDS(census_state_raw,  here("data", "raw", "census_state_raw.rds"))
 
 message("\n✓ 01c complete: Census data saved to data/raw/")
+
