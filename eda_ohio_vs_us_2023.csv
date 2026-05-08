@@ -1,0 +1,3 @@
+"group","n_counties","avg_fi_rate","avg_child_fi_rate","avg_meal_cost","avg_poverty_rate","avg_unemployment","avg_median_income"
+"Rest of U.S.",3056,0.153,0.202,3.58,14.288,4.724,66015
+"Ohio",88,0.153,0.192,3.46,12.866,4.303,68101
